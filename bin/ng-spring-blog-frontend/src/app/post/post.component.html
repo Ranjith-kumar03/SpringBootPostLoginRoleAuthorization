@@ -1,0 +1,19 @@
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-8">
+            <div *ngIf="post | async as postdata">
+            <h1 class="blog-title">{{postdata.title}}</h1>
+            <span>
+                      <p>by {{postdata.username}}</p>
+                  </span>
+            <hr>
+            <p [innerHTML]="postdata.content"></p>
+            <hr>
+          </div>
+      </div>
+    </div>
+
+  </div>
+

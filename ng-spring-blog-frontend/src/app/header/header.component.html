@@ -1,0 +1,17 @@
+<div class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6"><!----title--->
+        <h1><a href="" class="title">Spring Blog</a></h1>
+      </div>
+      <div class="col-md-3">
+        <a class ="addpost login btn btn-default"  *ngIf="loginService.isLoggedIn()"  routerLink="/addpost">Add Post</a>
+      </div>
+      <div class="col-md-"><!----Login and Register--->
+         <a class ="login btn btn-default"  *ngIf="!loginService.isLoggedIn()"  routerLink="/login">Login</a>
+        `<a class ="register btn btn-default" *ngIf="!loginService.isLoggedIn()" routerLink="/register">Register</a>
+        <a class ="logout btn btn-default" *ngIf="loginService.isLoggedIn()" (click)="logout()" routerLink="/logout">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>

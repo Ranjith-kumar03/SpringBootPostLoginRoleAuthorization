@@ -1,0 +1,5 @@
+export class AuthResponse{
+  authenticationToken: string;
+  username: string;
+  role: string;
+}
