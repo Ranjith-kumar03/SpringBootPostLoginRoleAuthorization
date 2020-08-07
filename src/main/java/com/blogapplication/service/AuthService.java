@@ -38,14 +38,17 @@ public class AuthService {
 	 @Autowired
 	 private JWTProvider jwt;
 	
-	public void signup(RegisterRequest registerrequest)
+	public void signup( RegisterRequest registerrequest)
 	{
+		System.out.println(registerrequest);
 		User user = new User();
+		
 		
 		user.setUsername(registerrequest.getUsername());
 		user.setPassword(PasswordEncoder(registerrequest.getPassword()));
 		user.setEmail(registerrequest.getEmail());
 		user.setRole(registerrequest.getRole());
+		System.out.println(user);
 		
 		_userRepository.save(user);
 	}
@@ -67,18 +70,24 @@ public class AuthService {
 	   
 	   
 		Authentication authentication=   authetnticationmanager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword() ));
-		//System.out.println("Iam also getting hit"+authentication);
-	    SecurityContextHolder.getContext().setAuthentication(authentication);
+		System.out.println("Iam also getting hit"+authentication);
+	    //  SecurityContextHolder.getContext().setAuthentication(authentication);
+	    //System.out.println("iam the principal qwhile login" +SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 	    String token = jwt.generateToken(authentication);
 	    String roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining());
+	    System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 	    System.out.println("please find the roles" + roles);
-	   return new AuthenticationResponse(token ,authentication.getName(),roles);
+	   return new AuthenticationResponse(token, authentication.getName(), roles );//
 	}
 	
-    public Optional<org.springframework.security.core.userdetails.User> getCurrentUser()
-    {
-    	org.springframework.security.core.userdetails.User pricipal=	(org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-   return Optional.of(pricipal);
-    }
+	
+	  public Optional<org.springframework.security.core.userdetails.User> getCurrentUser() { 
+		  System.out.println("iam the principal" +SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	  org.springframework.security.core.userdetails.User	 pricipal=	(org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	  //System.out.println("iam the principal" +SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	  
+	  return     Optional.of(pricipal); }
+	 
 }
 

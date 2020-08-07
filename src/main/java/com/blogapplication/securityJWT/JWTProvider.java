@@ -10,12 +10,17 @@ import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.blogapplication.repository.UserRepository;
+import com.blogapplication.service.UserDetailService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -25,13 +30,14 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JWTProvider {
 
-	SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-	/*
-	 * private Key key;
-	 * 
-	 * @PostConstruct public void init() { key =
-	 * Keys.secretKeyFor(SignatureAlgorithm.HS512); }
-	 */
+	//SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+	@Autowired
+	private UserDetailService userdetailservice;
+	  private Key key;
+	  
+	  @PostConstruct public void init() { key =
+	  Keys.secretKeyFor(SignatureAlgorithm.HS512); }
+	 
 	
 	public String generateToken(Authentication authentication)
 	{
@@ -44,7 +50,7 @@ public class JWTProvider {
 	 */
 		 return Jwts.builder().setSubject(authentication.getName())
 	                .claim("roles", authorities)
-	                .setExpiration(new Date(System.currentTimeMillis() + 5000))
+	                .setExpiration(new Date(System.currentTimeMillis() + 120000))
 	                .signWith(SignatureAlgorithm.HS512, key ).compact();
 		
 	}
@@ -78,11 +84,13 @@ public class JWTProvider {
         }
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
         String username = claims.getSubject();
+        UserDetails userDetails = userdetailservice.loadUserByUsername(username);
         List<GrantedAuthority> authorities = Arrays.stream(claims.get("roles").toString().split(","))
                 .map(role -> role.startsWith("ROLE_")? role:"ROLE_"+role)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        return username!=null ? new UsernamePasswordAuthenticationToken(username, null, authorities):null;
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails , null, authorities );
+        return username!=null ? authentication:null;
     }
 
 	

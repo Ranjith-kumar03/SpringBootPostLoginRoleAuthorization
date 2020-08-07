@@ -18,6 +18,7 @@ import { AdpostComponent } from './adpost/adpost.component';
 import {EditorModule} from '@tinymce/tinymce-angular';
 import {HttpClientInterceptor} from './Service/http-interceptors.service';
 import { PostComponent } from './post/post.component';
+import { AdminregisterComponent } from './auth/adminregister/adminregister.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { PostComponent } from './post/post.component';
     PageNotFoundComponent,
     HomeComponent,
     AdpostComponent,
-    PostComponent
+    PostComponent,
+    AdminregisterComponent
   ],
   imports: [
     BrowserModule,

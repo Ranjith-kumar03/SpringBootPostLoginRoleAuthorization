@@ -54,7 +54,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 		Authentication authentication = jwtprovider.getAuthentication(request);
 
         if(authentication != null && jwtprovider.ValidateToken(request)){
+        	System.out.println("Iam going to be Authenticated"+authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("iam the principal" +SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         }
         chain.doFilter(request, response);
 	}

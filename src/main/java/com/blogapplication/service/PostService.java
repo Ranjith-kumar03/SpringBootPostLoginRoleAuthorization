@@ -25,8 +25,9 @@ public class PostService {
 		post.setTitle(postDto.getTitle());
 		post.setContent(postDto.getContent());
 		User username = _authservice.getCurrentUser().orElseThrow(()-> new IllegalArgumentException("No User Logged In"));
-		post.setUsername(username.getUsername());
+		post.setUsername(username.getUsername());//
 		post.setCreatedon(Instant.now());
+		post.setUpdatedon(Instant.now());
 		_postRepository.save(post);
 	}
 	public List<PostDTO> showAllPosts() {
@@ -42,7 +43,7 @@ public class PostService {
 		postDTO.setId(post.getId());
 		postDTO.setTitle(post.getTitle());
 		postDTO.setContent(post.getContent());
-		postDTO.setUsername(post.getUsername());
+		postDTO.setUsername(post.getUsername());//
 		return postDTO;
 	}
 	

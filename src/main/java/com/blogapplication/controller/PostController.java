@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blogapplication.dto.PostDTO;
+import com.blogapplication.service.AuthService;
 import com.blogapplication.service.PostService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -21,11 +22,16 @@ import com.blogapplication.service.PostService;
 public class PostController {
 	@Autowired
 	private PostService postService; 
+	
+	@Autowired
+	private AuthService _authservice;
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/addpost")
 	public ResponseEntity<HttpStatus> createPost(@RequestBody PostDTO postDTO)
 	{
+		//System.out.println(_authservice.getCurrentUser());
+		System.out.println(postDTO);
 		postService.createPost(postDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

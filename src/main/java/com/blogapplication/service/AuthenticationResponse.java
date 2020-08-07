@@ -24,7 +24,8 @@ public class AuthenticationResponse {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public AuthenticationResponse(String authenticationToken, String username , String role) {
+	//, String username , String role
+	public AuthenticationResponse(String authenticationToken , String username , String role  ) {
 		super();
 		this.authenticationToken = authenticationToken;
 		this.username = username;

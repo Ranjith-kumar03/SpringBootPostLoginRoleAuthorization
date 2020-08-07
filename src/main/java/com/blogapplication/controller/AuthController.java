@@ -26,7 +26,7 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<HttpStatus> signup(@RequestBody RegisterRequest registerrequest)
 	{
-		registerrequest.setRole("ADMIN");
+		
 	System.out.println(registerrequest);
 		_authservice.signup(registerrequest);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);

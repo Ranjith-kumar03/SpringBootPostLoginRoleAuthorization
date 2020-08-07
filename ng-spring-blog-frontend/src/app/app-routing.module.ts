@@ -8,16 +8,19 @@ import {HomeComponent} from './home/home.component';
 import {AdpostComponent} from './adpost/adpost.component';
 import {PostComponent} from './post/post.component';
 import {AutHguardGuard} from './aut-hguard.guard';
+import { AdminregisterComponent } from './auth/adminregister/adminregister.component';
+import { Role } from 'src/model/role';
 
 
 const routes: Routes = [
   {path: '', redirectTo: '/login' , pathMatch: 'full'},
   {path: 'login',  component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'post/:id', component: PostComponent},
+  {path: 'registerAdmin', component:  AdminregisterComponent ,canActivate: [AutHguardGuard], data: {roles: [Role.USER, Role.ADMIN]}},
+  {path: 'post/:id', component: PostComponent, canActivate: [AutHguardGuard],data: {roles: [Role.USER, Role.ADMIN]}},
   {path: 'registersuccess', component: RegisterSuccessComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'addpost', component: AdpostComponent, canActivate: [AutHguardGuard]},
+  {path: 'addpost', component: AdpostComponent, canActivate: [AutHguardGuard],data: {roles: [Role.USER]}},
   {path: '**', component: PageNotFoundComponent }
 ];
 
